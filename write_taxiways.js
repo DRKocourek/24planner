@@ -3,6 +3,12 @@ async function writeTaxiways() {
     const filtered_atis = await fetch("https://24api.drkocourek.stream/api/atis?airport="+input_field.value);
     const atis_data = await filtered_atis.json();
     const depRunways = atis_data.content.match(/DEP RWY\s+([0-9]{1,2}[LRC]?(?:\s+[0-9]{1,2}[LRC]?)*)/i)?.[1].split(/\s+/);
+
+    element_array = Array.from(document.getElementsByClassName("taxiway"));
+    element_array.forEach(element => {
+        element.remove();
+    });
+
     for(let i = 0; i < depRunways.length; i++) {
         let search_runways = String(input_field.value) + "_"+ depRunways[i];
         const often_taxiways = [
@@ -39,9 +45,11 @@ async function writeTaxiways() {
         let holding_div = document.getElementsByClassName("display-taxiways")[0];
 
         let placeholder = document.getElementsByClassName("taxiway-placeholder")[0];
-
+        display_runway.setAttribute("class", "taxiway");
+        display_taxiways.setAttribute("class", "taxiway");
+        try{
         placeholder.remove();
-
+        } catch {}
         try {
             display_runway.textContent = taxiway_line.runway;
             holding_div.appendChild(display_runway);

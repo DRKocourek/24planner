@@ -112,11 +112,12 @@
         <label for="route">Route (optional): </label>
         <input type="text" class="route" style="margin-left: 51px;">
         <br>
+        <i style="color:blue; visibility: hidden;" class="copied">Flightplan command was copied to clipboard, you now may paste it into #flight-plans</i>
         <div class="error-field">
 
         </div>
         </div>
-        <button onclick="getATIS(); createFlightplan(); writeTaxiways();">Send request</button>
+        <button onclick="getATIS(); createFlightplan(); writeTaxiways();">File flightplan</button>
         <p class="display-flightplan"></p>
         </form>
 

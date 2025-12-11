@@ -45,13 +45,18 @@ function createFlightplan(){
         flightrules = "IFR";
     } else flightrules = "VFR";
     // 
+    let copied_element = document.getElementsByClassName("copied")[0];
+    copied_element.setAttribute("style", "color: blue; visibility: hidden;");
+    
     const depValue = dep_airport.value.trim();
     if (!airports.find(a => a.icao === depValue) && !airports.find(a => a.fullName.toLocaleLowerCase() === depValue.toLocaleLowerCase())) {
+        return_error();
         return;
     }
 
     const arrValue = dep_airport.value.trim();
     if (!airports.find(a => a.icao === arrValue) && !airports.find(a => a.fullName.toLocaleLowerCase() === arrValue.toLocaleLowerCase())) {
+        return_error();
         return;
     }
 
@@ -71,17 +76,22 @@ function createFlightplan(){
     if (callsign.value.trim() == "") callsign.value = ingame_callsign.value;
     if (flightroute.value == "") flightroute.value = "GPS Direct";
     if (ac_icao.value.trim() == "" || ingame_callsign.value.trim() == "" || flightlevel.value.trim() == "") {
-        let error_div = document.getElementsByClassName("error-field")[0];
-        error_message = document.createElement("i");
-        error_message.setAttribute("class", "error");
-        error_message.textContent = "Please fill out all the mandatory fields!";
-        error_div.appendChild(error_message);
+        return_error();
         return;
     }
 
     let fullFlightPlan =  "/createflightplan ingamecallsign:" + ingame_callsign.value + " callsign:" + callsign.value + " aircraft:" + ac_icao.value + " flightrules:" + flightrules + " departing:" + departure_fullname + " arriving:" + arrival_fullname + " flightlevel:" + flightlevel.value + " route:" + flightroute.value;
     navigator.clipboard.writeText(fullFlightPlan);
-    
+    copied_element.setAttribute("style", "color: blue; visibility: visible;");
+
+}
+
+function return_error() {
+        let error_div = document.getElementsByClassName("error-field")[0];
+        error_message = document.createElement("i");
+        error_message.setAttribute("class", "error");
+        error_message.textContent = "Please fill out all the mandatory fields!";
+        error_div.appendChild(error_message);
 }
 
 // find full airport name from ICAO
