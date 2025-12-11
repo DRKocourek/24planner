@@ -29,7 +29,6 @@ async function getControllers() {
     if (!element.claimable){
         //create the img element
         if (element.position == "CTR"){
-          console.log("CTR position")
           img_element = document.createElement("img");
           img_element.className = "ATC"
           img_element.setAttribute("src", "radar-icon.svg");
