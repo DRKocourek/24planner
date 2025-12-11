@@ -3,10 +3,8 @@ async function writeTaxiways() {
     const filtered_atis = await fetch("https://24api.drkocourek.stream/api/atis?airport="+input_field.value);
     const atis_data = await filtered_atis.json();
     const depRunways = atis_data.content.match(/DEP RWY\s+([0-9]{1,2}[LRC]?(?:\s+[0-9]{1,2}[LRC]?)*)/i)?.[1].split(/\s+/);
-    console.log(depRunways);
     for(let i = 0; i < depRunways.length; i++) {
         let search_runways = String(input_field.value) + "_"+ depRunways[i];
-        console.log(search_runways);
         const often_taxiways = [
             {runway: "IRFD_7R", taxiway: "Gates 1-5: A A1/A2 \nGates 6-10: J J1 A A1/A2 \nGates 11-20: K K2 J2 A1"},
             {runway: "IRFD_7L", taxiway: "Gates 1-5: A A1 B B1 \n Gates 6-10: J J1 A A1 B B1 \n Gates 11-20: K K2 J2 A1 B B1"},
@@ -32,11 +30,8 @@ async function writeTaxiways() {
             taxiway_line = often_taxiways.find(tax => tax.runway === search_runways);
             expected_taxiway = taxiway_line.taxiway;
         } catch(err) {
-            console.log(err);
             expected_taxiway = "Sorry, no information about taxiways for the selected airport/runway combination"
         }
-        console.log(expected_taxiway);
-        
 
         let pre = document.createElement("pre");
         let display_taxiways = document.createElement("h5");

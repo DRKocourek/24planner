@@ -4,7 +4,6 @@ async function getControllers() {
   const controllers = await fetch("https://24api.drkocourek.stream/api/controllers");
   controllers_data = await controllers.json();
   
-  console.log(controllers_data);
   //prepare all the vars before use
   let output_text = document.getElementsByClassName("display-controllers");
   let text_element = document.createElement("h1");
@@ -28,8 +27,6 @@ async function getControllers() {
   controllers_data.forEach(element => {
 
     if (!element.claimable){
-        //debug logs for the airport name
-        console.log(element.airport);
         //create the img element
         if (element.position == "CTR"){
           console.log("CTR position")

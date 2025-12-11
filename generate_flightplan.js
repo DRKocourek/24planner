@@ -43,18 +43,15 @@ function createFlightplan(){
     let flightrules = "";
     if (!ifr.id) {
         flightrules = "IFR";
-        console.log("IFR")
-    } else flightrules = "VFR"; console.log("VFR");
+    } else flightrules = "VFR";
     // 
     const depValue = dep_airport.value.trim();
     if (!airports.find(a => a.icao === depValue) && !airports.find(a => a.fullName.toLocaleLowerCase() === depValue.toLocaleLowerCase())) {
-        console.log("Invalid departure airport!");
         return;
     }
 
     const arrValue = dep_airport.value.trim();
     if (!airports.find(a => a.icao === arrValue) && !airports.find(a => a.fullName.toLocaleLowerCase() === arrValue.toLocaleLowerCase())) {
-        console.log("Invalid arrival airport!");
         return;
     }
 
@@ -64,19 +61,16 @@ function createFlightplan(){
     if (airports.find(a => a.fullName == dep_airport.value.trim())) {departure_fullname = dep_airport.value.trim()}
     else {
         departure_fullname = getFullName(dep_airport.value.trim());
-        console.log(departure_fullname);
     }
     
     if (airports.find(a => a.fullName == arr_airport.value.trim())) {arrival_fullname = arr_airport.value.trim()}
     else {
         arrival_fullname = getFullName(arr_airport.value.trim());
-        console.log(arrival_fullname);
     }
 
     if (callsign.value.trim() == "") callsign.value = ingame_callsign.value;
     if (flightroute.value == "") flightroute.value = "GPS Direct";
     if (ac_icao.value.trim() == "" || ingame_callsign.value.trim() == "" || flightlevel.value.trim() == "") {
-        console.log("Please fill out all the mandatory fields!");  
         let error_div = document.getElementsByClassName("error-field")[0];
         error_message = document.createElement("i");
         error_message.setAttribute("class", "error");
@@ -85,8 +79,7 @@ function createFlightplan(){
         return;
     }
 
-    let fullFlightPlan =  "/createflightplan ingamecallsign:" + ingame_callsign.value + " callsign:" + callsign.value + " aircraft:" + ac_icao.value + " flightrules:" + flightrules + " departing:" + departure_fullname + " arriving:" + arrival_fullname + " flightlevel:" + flightlevel.value + " route:" + flightroute.value
-    console.log(fullFlightPlan);
+    let fullFlightPlan =  "/createflightplan ingamecallsign:" + ingame_callsign.value + " callsign:" + callsign.value + " aircraft:" + ac_icao.value + " flightrules:" + flightrules + " departing:" + departure_fullname + " arriving:" + arrival_fullname + " flightlevel:" + flightlevel.value + " route:" + flightroute.value;
     navigator.clipboard.writeText(fullFlightPlan);
     
 }
