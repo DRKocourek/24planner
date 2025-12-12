@@ -111,4 +111,10 @@ app.get("/api/atis", (req, res) => {
   res.json(final_return || []);
 });
 
+app.get("/api/teapot", (req, res) => {
+  res.status(418);
+  res.send("<html><body><h1>I'm a teapot</h1></body><html>");
+});
+
+
 app.listen(3000, () => console.log("Server running on port 3000"));
