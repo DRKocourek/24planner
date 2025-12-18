@@ -1,2 +1,2 @@
-# 24projects
-A testing repo for my experimental ATC24 API projects. If any will be successful enough it will get its own repository
+# 24Planner
+A flightplanner for ATC24, able to display any info a pilot would ever need for planning a flight (ATIS, online ATC and most used taxi instructions on frequent airports)
