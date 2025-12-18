@@ -3,6 +3,9 @@ const fetch = require("node-fetch");
 const cors = require("cors");
 const WebSocket = require('ws');
 const { URL } = require("url");
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database("/home/drkocourek/24planner/backend/stats/stats.sqlite");
+
 
 
 const app = express();
@@ -106,7 +109,37 @@ app.get("/api/atis", (req, res) => {
   let req_airport = req.query.airport
   //find the requested value
   let final_return = atisCache.find(item => item.airport === req_airport);
+  db.run(
+  "UPDATE airports SET count = count + 1 WHERE id = ?",
+  [23],
+  function(err) {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(`Row updated successfully`);
+    }
+  }
+);
   //console.log(final_return);
+    db.all("SELECT * FROM airports WHERE name = ?", [req.query.airport], (err, rows) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Database error" });
+    } else {
+        if (rows == []) {
+          
+        } else {
+          db.run(
+            "UPDATE airports SET count = count + 1 WHERE name = ?",[req.query.airport],
+            function(err) {
+              if (err) {
+                console.error(err);
+              } else {
+                console.log(`Row updated successfully`);
+              }
+            });
+        }
+    }})
   //send it back
   res.json(final_return || []);
 });
