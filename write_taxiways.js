@@ -1,6 +1,6 @@
 async function writeTaxiways() {
     let input_field = document.getElementsByClassName("dep_airport")[0];
-    const filtered_atis = await fetch("https://24api.drkocourek.stream/api/atis?airport="+input_field.value);
+    const filtered_atis = await fetch("https://somedoctorapi.drkocourek.stream/api/atis?airport="+input_field.value);
     const atis_data = await filtered_atis.json();
     const depRunways = atis_data.content.match(/DEP RWY\s+([0-9]{1,2}[LRC]?(?:\s+[0-9]{1,2}[LRC]?)*)/i)?.[1].split(/\s+/);
 

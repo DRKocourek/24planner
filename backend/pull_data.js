@@ -50,6 +50,8 @@ socket.addEventListener('error', error => {
   console.error('WebSocket error:', error);
 });*/
 
+let healthStatus;
+
 let flightplans = [];
 
 async function handleFlightPlan(data){
@@ -65,8 +67,10 @@ async function pullControllers() {
   try {
     const res = await fetch("https://24data.ptfs.app/controllers");
     controllersCache = await res.json();
+    healthStatus = true;
     //console.log("Updated controllers cache");
   } catch (err) {
+    healthStatus = false
     console.error("An error occured when trying to receive data: ", err);
   }
 }
@@ -75,20 +79,25 @@ async function pullAC() {
   try {
     const res = await fetch("https://24data.ptfs.app/acft-data");
     acftCache = await res.json();
+    healthStatus = true;
   } catch(err){
+    healthStatus = false;
     console.error("An error occured when trying to receive data: ", err);
   }
 }
+
 
 async function pullATIS() {
   try{
     const res = await fetch("https://24data.ptfs.app/atis");
     atisCache = await res.json();
-
+    healthStatus = true;
   } catch(err){
+    healthStatus = false;
     console.error("An error occured when trying to receive data: ", err);
   }
 }
+
 
 setInterval(pullControllers, 6000);
 pullControllers();
@@ -99,9 +108,12 @@ pullAC();
 setInterval(pullATIS, 30000);
 pullATIS();
 
-
 app.get("/api/controllers", (req, res) => {
   res.json(controllersCache || []);
+});
+
+app.get("/api/datahealth", (req, res) => {
+  res.json(healthStatus || []);
 });
 
 app.get("/api/atis", (req, res) => {
