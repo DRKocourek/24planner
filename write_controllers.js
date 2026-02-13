@@ -1,7 +1,30 @@
 let controllers_data
+let serverUrl;
+
+let initialized = false;
+let url; 
+
+async function init() {
+    serverUrl = await fetchURL();
+
+    await getControllers();
+}
+
+init();
+
+async function fetchURL() {
+  if(!initialized){ 
+    let res = await fetch("https://loadbalancer.drkocourek.workers.dev/"); 
+    url = await res.json(); 
+    initialized = true; 
+  } 
+  return url; 
+}
+
+
 async function getControllers() {
   //fetch the controllers data from the "cache" server
-  const controllers = await fetch("https://somedoctorapi.drkocourek.stream/api/controllers");
+  const controllers = await fetch(serverUrl +"/api/controllers");
   controllers_data = await controllers.json();
   
   //prepare all the vars before use
@@ -67,7 +90,6 @@ async function getControllers() {
   });
 }
 
-getControllers();
 
 function checkFreq(){
   const frequencies = [
